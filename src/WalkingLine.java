@@ -6,15 +6,14 @@
  * functions that will draw new line depending on the random generated direction
  * a function that will check whether the line is at the edge.
  */
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import javafx.util.Duration;
+
+
 public class WalkingLine extends Pane{
 	private List<Integer>[] graph; //this will help checking if the next position has already connected to the current
 	private double x = 250;
@@ -25,30 +24,33 @@ public class WalkingLine extends Pane{
 	/** empty constructor **/
 	public WalkingLine() {
 		graph = new List[51];
-		animation = new Timeline(new KeyFrame(Duration.millis(400), e -> walk((int)(Math.random() * 4))));
+		animation = new Timeline(new KeyFrame(Duration.millis(50), e -> walk((int)(Math.random() * 4))));
 		animation.setCycleCount(Timeline.INDEFINITE);
 		animation.play();
 	}
 	
 	
 	public void walkUp() {
-
-		
+		getChildren().add(new Line(x,y, x, y -10));
+		y -= 10;
 		
 	}
 	
 	public void walkDown() {
-		
+		getChildren().add(new Line(x,y, x, y +10));
+		y += 10;
 		}
 
 		
 	
 	public void walkLeft() {
-	
+		getChildren().add(new Line(x, y, x - 10, y));
+		x -= 10;
 	}
 	
 	public void walkRight() {
-
+		getChildren().add(new Line(x, y , x + 10, y));
+		x += 10;
 		
 	}
 	
@@ -70,7 +72,9 @@ public class WalkingLine extends Pane{
 	
 	public void walk(int direction) {
 		if(isEdge()) { //stop once the line reaches the edge.
-			pause();
+			getChildren().clear();
+			x = 250;
+			y = 250;
 			return;
 		}
 		switch(direction) {
